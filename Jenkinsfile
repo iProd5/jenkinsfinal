@@ -26,7 +26,7 @@ stage('Clone repository') {
     stage('Push image') {
     //   pushing image to ecr
         docker.withRegistry('https://registry.hub.docker.com', 'docker-hub') {
-            app.push("${env.BUILD_NUMBER}")
+            //app.push("${env.BUILD_NUMBER}")
             app.push("latest")
             } 
                 echo "this will try Pushing Docker Build to DockerHub"
