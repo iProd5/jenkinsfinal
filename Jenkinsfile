@@ -12,7 +12,7 @@ stage('Clone repository') {
     stage('Build image') {
         //  This builds the image
 
-        app = docker.build("lutherphoenix/nodeapp")
+        app = docker.build("lutherphoenix/test")
     }
 
     stage('Test image') {
@@ -28,6 +28,6 @@ stage('Clone repository') {
         docker.withRegistry('https://registry.hub.docker.com', 'docker-hub') {
             app.push("latest")
             } 
-                echo "this will try Pushing Docker Build to DockerHub"
+                echo "Pushed"
     }
 }
