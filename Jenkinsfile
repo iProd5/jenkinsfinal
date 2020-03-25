@@ -34,6 +34,6 @@ stage('Clone repository') {
              docker.withRegistry('https://879622740067.dkr.ecr.us-east-2.amazonaws.com', 'ecr:us-east-2:aws-ecr') {
                 docker.image('test-push-from-image-from-jenkins').push('latest')
     }
-                echo "Pushed"
+                echo "Pushing to ECR"
     }
 }
