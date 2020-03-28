@@ -1,39 +1,64 @@
-// avoided using a groovy script so i dont loose this when job is deleted.
-node {
-    def app
-
-    
-stage('Clone repository') {
-        //  Clones the Repository to our Workspace
-
-        checkout scm
+// 
+pipeline {
+    agent any
+    environment {
+        AWS_ACCESS_KEY_ID     = credentials('ECRURL')
+        // AWS_SECRET_ACCESS_KEY = credentials('jenkins-aws-secret-access-key')
     }
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building'
+            script{   
+            docker.build("$IMAGE")
+                }
+            }
+        }
+        stage('Test') {
+            steps {
 
-    stage('Build image') {
-        //  This builds the image
+                echo 'installing pytest'
+        // sh  ''' python3 -m pip install pytest
+        //     '''   
 
-        // app = docker.build("lutherphoenix/test")
-        app = docker.build("test-push-from-image-from-jenkins")
-    }
-
-    stage('Test image') {
-        
-        app.inside {
-            // echo this test to check if imsge was built alright
-            echo "Tests passed"
+                echo 'Testing'
+        // sh  ''' cd Test
+        //         python3 -m pytest --verbose --junit-xml ../test-reports/results.xml
+        //         '''
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'push to ECR '
+    //             script{   
+    //             // pushing image to ecr
+                docker.withRegistry('$AWS_ACCESS_KEY_ID', 'ecr:us-east-2:aws-ecr') {
+                docker.image('$IMAGE').push('latest')
         }
     }
+            
+            }
+        }
+    }  
+    post {
+    
+        success {
+            echo 'This will run only if successful'
+        }
+        failure {
+            echo 'This will run only if failed'
+        }
+        unstable {
+            echo 'This will run only if the run was marked as unstable'
+        }
+        changed {
+            echo 'This will run only if the state of the Pipeline has changed'
+            echo 'For example, if the Pipeline was previously failing but is now successful'
+        }
+    always {
+            echo 'This will always run'
+            junit 'test-reports/results.xml'
+        }
+    }  
 
-    stage('Push image') {
-    //   pushing image to ecr
-        // docker.withRegistry('https://registry.hub.docker.com', 'docker-hub') {
-        //     app.push("latest")
-        //     } 
-
-        // pushing image to ecr
-             docker.withRegistry('${ECRURL}', 'ecr:us-east-2:aws-ecr') {
-                docker.image('test-push-from-image-from-jenkins').push('latest')
-    }
-                echo "Pushing to ECR"
-    }
-}
+} 
