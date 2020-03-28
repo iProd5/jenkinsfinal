@@ -27,7 +27,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'push to ECR '
-    //             script{   
+               script{   
     //             // pushing image to ecr
                 docker.withRegistry('ECRURL', 'ecr:us-east-2:aws-ecr') {
                 docker.image('$IMAGE').push('latest')
@@ -57,3 +57,4 @@ pipeline {
             junit 'test-reports/results.xml'
         }
     }  
+}
