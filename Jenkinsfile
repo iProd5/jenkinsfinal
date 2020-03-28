@@ -54,7 +54,7 @@ pipeline {
         }
     always {
             echo 'This will always run'
-            junit 'test-reports/results.xml'
+            // junit 'test-reports/results.xml'
         }
     }  
 }
