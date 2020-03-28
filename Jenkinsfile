@@ -1,7 +1,10 @@
 // 
 pipeline {
     agent any
-  
+    environment {
+        AWS_ACCESS_KEY_ID     = credentials('ECRURL')
+        // AWS_SECRET_ACCESS_KEY = credentials('jenkins-aws-secret-access-key')
+    }
     stages {
         stage('Build') {
             steps {
@@ -27,7 +30,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'push to ECR '
-               script{   
+                script{   
     //             // pushing image to ecr
                 docker.withRegistry('ECRURL', 'ecr:us-east-2:aws-ecr') {
                 docker.image('$IMAGE').push('latest')
