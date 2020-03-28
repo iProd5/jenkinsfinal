@@ -29,7 +29,7 @@ pipeline {
                 echo 'push to ECR '
                 script{   
     //             // pushing image to ecr
-                docker.withRegistry('('$ecrurl')', 'ecr:us-east-2:aws-ecr') {
+                docker.withRegistry('$ecrurl', 'ecr:us-east-2:aws-ecr') {
                 docker.image('$image').push('latest')
         }
     }
