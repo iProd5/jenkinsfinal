@@ -15,7 +15,7 @@ pipeline {
             steps {
                 echo 'Building'
             script{   
-                def SC = docker.build("anotherhello", "-f ${env.WORKSPACE}/second/src/Dockerfile .")
+                def SC = docker.build("anotherhello", "-f ${env.WORKSPACE}/second/src/Dockerfile")
            // docker.build("anotherhello")
                 }
             }
