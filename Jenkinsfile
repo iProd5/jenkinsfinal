@@ -63,6 +63,8 @@ pipeline {
     always {
             echo 'This will always run'
             // junit 'test-reports/results.xml'
+            sh 'docker rmi anotherhello | true'
+            sh 'docker rmi hello | true' 
         }
     }  
 }
