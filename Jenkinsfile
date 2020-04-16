@@ -3,11 +3,19 @@ pipeline {
     agent any
    
     stages {
-        stage('Build') {
+        stage('Build first image') {
             steps {
                 echo 'Building'
             script{   
-            docker.build("$image")
+            docker.build("hello")
+                }
+            }
+        }
+        stage('Build second image anotherhello') {
+            steps {
+                echo 'Building'
+            script{   
+            docker.build("anotherhello")
                 }
             }
         }
