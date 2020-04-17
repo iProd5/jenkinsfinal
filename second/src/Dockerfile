@@ -1,6 +1,6 @@
 FROM python:3
 
-ADD hello.py /
+ADD anotherhello.py /
 
 # the entry
 CMD [ "python", "./anotherhello.py" ]
