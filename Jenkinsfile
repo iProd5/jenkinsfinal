@@ -53,6 +53,8 @@ pipeline {
         }
         failure {
             echo 'This will run only if failed'
+            echo 'this will be where the email will be sent'
+            
         }
         unstable {
             echo 'This will run only if the run was marked as unstable'
